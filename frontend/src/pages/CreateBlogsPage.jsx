@@ -4,12 +4,12 @@ import Navbar from "../components/Navbar"
 import Sidebar from "../components/Sidebar"
 
 
-const CreateBlogsPage = ({display, displaySight}) => {
+const CreateBlogsPage = ({display, displaySight, addPosts}) => {
   return (
     <div>
         <Navbar />
         <div className="d-flex">
-        <CreatePost />
+        <CreatePost addPosts={addPosts}/>
         <Sidebar display={display} displaySight={displaySight}/>
         </div>
         <Footer />

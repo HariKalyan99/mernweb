@@ -10,7 +10,7 @@ function App() {
   const [postList, setPostList] = useState([]);
   const [addPostObj, setAddPostObj] = useState({}); 
   const [delId, setDelId] = useState({});
-  const [updatePostObj, setUpdatePostObj] = useState({})
+  const [updatePostObj, setUpdatePostObj] = useState({})  
 
   const display = (value) => {
     setDisplaySight(value);
@@ -35,8 +35,26 @@ function App() {
     }
   }, [])
 
+
+  useEffect(() => {
+    const addPostToDb = async({userId, title, body, reactions, tags}) => {
+      try {
+        const {data} = await axios.post('http://localhost:9091/posts', {
+          userId, title, body, reactions, tags,
+          views: 100,
+        })
+      } catch (error) {
+        console.log("Error", error)
+      }
+    }
+
+    if(addPostObj?.title){
+      addPostToDb(addPostObj)
+    }
+  }, [addPostObj])
+
   const addPosts = (newPost) => {
-    console.log(newPost)
+    setAddPostObj(newPost)
   }
 
   
@@ -51,7 +69,7 @@ function App() {
   return (
    <div>
     {displaySight === "blogsPost" ? <BlogsPage display={display} displaySight={displaySight} postList={postList}/> :
-    <CreateBlogsPage display={display} displaySight={displaySight}/>}
+    <CreateBlogsPage display={display} displaySight={displaySight} addPosts={addPosts}/>}
    </div>
   )
 }
